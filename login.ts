@@ -18,3 +18,5 @@ export async function login() {
   await agent.login({ identifier, password });
   return agent;
 }
+
+export type AgentType = Awaited<ReturnType<typeof login>>;

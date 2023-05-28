@@ -1,9 +1,15 @@
-import { RichText } from "./deps.ts";
-import type { Facet } from "./deps.ts";
-import { login } from "./login.ts";
+import { Facet, RichText } from "./deps.ts";
+import { AgentType, login } from "./login.ts";
 
-export const richPost = async (text: string, facets: Facet[] = []) => {
-  const agent = await login();
+export const textPost = async (agent: AgentType, text: string) => {
+  return await agent.post({ $type: "app.bsky.feed.post", text });
+};
+
+export const richPost = async (
+  agent: AgentType,
+  text: string,
+  facets: Facet[] = [],
+) => {
   const rt = new RichText({ text, facets });
   // automatically detects mentions and links
   await rt.detectFacets(agent);
@@ -40,9 +46,9 @@ const convertMdLink = (src: string) => {
   }
 };
 
-export const mdLinkPost = async (src: string) => {
+export const mdLinkPost = async (agent: AgentType, src: string) => {
   const { text, facets } = convertMdLink(src);
-  return await richPost(text, facets);
+  return await richPost(agent, text, facets);
 };
 // const { text, facets } = convertMdLink(
 //   `link test
@@ -53,10 +59,18 @@ export const mdLinkPost = async (src: string) => {
 // );
 
 if (import.meta.main) {
-  if (Deno.args.length > 0) {
-    // console.log(await mdLinkPost(Deno.args.join(" ")));
-    console.log("post: " + Deno.args.join(" "));
-  } else {
+  if (Deno.args.length === 0) {
+    // no args
     console.log("pass some args to post.");
+    Deno.exit(1);
+  }
+
+  const agent = await login();
+  if (Deno.args[0] === "--raw") {
+    // raw text post
+    console.log(await textPost(agent, Deno.args.slice(1).join(" ")));
+  } else {
+    // rich text post
+    console.log(await mdLinkPost(agent, Deno.args.join(" ")));
   }
 }
