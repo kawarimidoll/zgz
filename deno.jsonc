@@ -3,7 +3,7 @@
     "ci": "deno lint && deno fmt",
     "post": "deno run --allow-env --allow-read=.env --allow-net=bsky.social post.ts",
     "chain_feed": "deno run --allow-env --allow-read=.env --allow-net=bsky.social chain_feed.ts",
-    "main": "deno run --allow-env --allow-read=.env --allow-net=bsky.social main.ts >> zgz.log",
+    "main": "deno run --allow-env --allow-read=.env --allow-net=bsky.social main.ts",
     "test": "deno test --allow-env --allow-read=.env --allow-net=bsky.social"
   }
 }
