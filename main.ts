@@ -2,6 +2,7 @@ import { Log } from "./deps.ts";
 import { login } from "./login.ts";
 import { textPost } from "./post.ts";
 import { chainFeed } from "./chain_feed.ts";
+import { notifyIfttt } from "./notify_ifttt.ts";
 
 let loopCount = 0;
 const maxLoopCount = 50;
@@ -26,6 +27,7 @@ while (loopCount < maxLoopCount) {
     } catch (e) {
       log.error(`post failed`);
       log.error(e);
+      notifyIfttt({ title: "zgz post failed", content: e.message });
 
       Deno.exit(1);
     }
@@ -35,4 +37,5 @@ while (loopCount < maxLoopCount) {
 }
 
 log.warn("max loop count reached");
+notifyIfttt({ title: "zgz post failed", content: "max loop count reached" });
 Deno.exit(1);
