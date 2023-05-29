@@ -11,8 +11,8 @@ export async function login() {
   const service = "https://bsky.social";
   const agent = new BskyAgent({ service });
   const {
-    ZGZ_BLUESKY_IDENTIFIER: identifier,
-    ZGZ_BLUESKY_PASSWORD: password,
+    BLUESKY_IDENTIFIER: identifier,
+    BLUESKY_PASSWORD: password,
   } = await loadEnv(envOptions);
 
   await agent.login({ identifier, password });
