@@ -18,7 +18,7 @@ import {
   stub,
 } from "https://deno.land/std@0.189.0/testing/mock.ts";
 
-import { Log } from "https://raw.githubusercontent.com/kawarimidoll/deno-tl-log/main/mod.ts";
+import { Log } from "https://deno.land/x/tl_log@0.1.2/mod.ts";
 
 const { BskyAgent, RichText, AppBskyFeedPost } = AtprotoAPI;
 
