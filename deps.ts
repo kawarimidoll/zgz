@@ -12,6 +12,11 @@ import {
   assertEquals,
   assertExists,
 } from "https://deno.land/std@0.189.0/testing/asserts.ts";
+import {
+  assertSpyCallArgs,
+  assertSpyCalls,
+  stub,
+} from "https://deno.land/std@0.189.0/testing/mock.ts";
 
 import { Log } from "https://raw.githubusercontent.com/kawarimidoll/deno-tl-log/main/mod.ts";
 
@@ -21,12 +26,15 @@ export {
   AppBskyFeedPost,
   assertEquals,
   assertExists,
+  assertSpyCallArgs,
+  assertSpyCalls,
   BskyAgent,
   loadEnv,
   Log,
   partition,
   RichText,
   sample,
+  stub,
   TinySegmenter,
 };
 
