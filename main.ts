@@ -19,6 +19,10 @@ while (loopCount < maxLoopCount) {
       const agent = await login();
       log.info(`post start`);
       log.info(`text: ${text}`);
+      if (Deno.args.includes("debug")) {
+        log.info(`debug mode, not post`);
+        Deno.exit(0);
+      }
       const { uri, cid } = await textPost(agent, text);
       log.info(`uri : ${uri}`);
       log.info(`cid : ${cid}`);
