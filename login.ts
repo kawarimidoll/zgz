@@ -1,19 +1,13 @@
-import { BskyAgent, loadEnv } from "./deps.ts";
-
-const envOptions = {
-  envPath: ".env",
-  examplePath: null,
-  defaultsPath: null,
-  export: false,
-};
+import { BskyAgent } from "./deps.ts";
+import { ensureEnv } from "./ensure_env.ts";
 
 export async function login() {
   const service = "https://bsky.social";
   const agent = new BskyAgent({ service });
-  const {
-    BLUESKY_IDENTIFIER: identifier,
-    BLUESKY_PASSWORD: password,
-  } = await loadEnv(envOptions);
+
+  await ensureEnv();
+  const identifier = Deno.env.get("BLUESKY_IDENTIFIER") || "";
+  const password = Deno.env.get("BLUESKY_PASSWORD") || "";
 
   await agent.login({ identifier, password });
   return agent;
