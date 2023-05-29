@@ -1,4 +1,4 @@
-import { markovChainGenerate } from "./markov_chain.ts";
+import { markovChainGenerate } from "../markov_chain.ts";
 
 const srcText = `
 私の名前は中野です。
