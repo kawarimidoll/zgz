@@ -19,7 +19,9 @@ export const chainFeed = async (feedUrl = JP_FEED) => {
       !reply && AppBskyFeedPost.isRecord(post.record) && !post.record.facets
     )
     .map(({ post }) =>
-      AppBskyFeedPost.isRecord(post.record) ? post.record.text : ""
+      AppBskyFeedPost.isRecord(post.record)
+        ? post.record.text.replace(/https?:\/\/[^\s\r\n]+/g, "")
+        : ""
     ).join("\n");
 
   // console.log(joinedPosts);
