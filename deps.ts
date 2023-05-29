@@ -9,12 +9,15 @@ import { TinySegmenter } from "https://code4fukui.github.io/TinySegmenter/TinySe
 import { partition } from "https://deno.land/std@0.189.0/collections/partition.ts";
 import { sample } from "https://deno.land/std@0.189.0/collections/sample.ts";
 
+import { Log } from "https://raw.githubusercontent.com/kawarimidoll/deno-tl-log/main/mod.ts";
+
 const { BskyAgent, RichText, AppBskyFeedPost } = AtprotoAPI;
 
 export {
   AppBskyFeedPost,
   BskyAgent,
   loadEnv,
+  Log,
   partition,
   RichText,
   sample,
