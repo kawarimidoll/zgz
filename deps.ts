@@ -6,6 +6,25 @@ import { load as loadEnv } from "https://deno.land/std@0.189.0/dotenv/mod.ts";
 // https://fukuno.jig.jp/3596
 import { TinySegmenter } from "https://code4fukui.github.io/TinySegmenter/TinySegmenter.js";
 
+// https://zenn.dev/kawarimidoll/articles/86342d541b17d7
+const segmenter = (text: string) => {
+  const segments = TinySegmenter.segment(text);
+  const result = [segments[0]];
+
+  // join separated surrogate pairs
+  for (const seg of segments.slice(1)) {
+    const last = result.at(-1) || "";
+
+    if (/[\ud800-\udbff]$/.test(last) && /^[\udc00-\udfff]/.test(seg)) {
+      result.splice(-1, 1, last + seg);
+    } else {
+      result.push(seg);
+    }
+  }
+
+  return result;
+};
+
 import { partition } from "https://deno.land/std@0.189.0/collections/partition.ts";
 import { sample } from "https://deno.land/std@0.189.0/collections/sample.ts";
 import {
@@ -34,8 +53,8 @@ export {
   partition,
   RichText,
   sample,
+  segmenter,
   stub,
-  TinySegmenter,
 };
 
 export type { Facet };

@@ -1,4 +1,4 @@
-import { partition, sample, TinySegmenter } from "./deps.ts";
+import { partition, sample, segmenter } from "./deps.ts";
 import { hirakataRegexp } from "./hirakata_regexp.ts";
 
 let ngWordListCache: string[] | null = null;
@@ -36,7 +36,7 @@ const parseToNodes = (text: string) => {
           ? acc
           : [
             ...acc,
-            TinySegmenter.segment(line).filter((node) => !/^[\s　]*$|\.|�/.test(node)),
+            segmenter(line).filter((node) => !/^[\s　]*$|\./.test(node)),
           ],
       [] as string[][],
     );
