@@ -1,4 +1,5 @@
 import { partition, sample, TinySegmenter } from "./deps.ts";
+import { hirakataRegexp } from "./hirakata_regexp.ts";
 
 let ngWordListCache: string[] | null = null;
 // check the text has any NG words
@@ -16,7 +17,7 @@ const isNgText = (text: string) => {
 
   // check the text contains any NG words
   for (const word of ngWordListCache) {
-    if (text.includes(word)) {
+    if (hirakataRegexp(word).test(text)) {
       return true;
     }
   }
