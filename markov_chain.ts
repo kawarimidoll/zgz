@@ -1,5 +1,27 @@
 import { partition, sample, TinySegmenter } from "./deps.ts";
 
+let ngWordListCache: string[] | null = null;
+// check the text has any NG words
+const isNgText = (text: string) => {
+  if (ngWordListCache === null) {
+    try {
+      const wordList = Deno.readTextFileSync("./ng_word_list.txt");
+      ngWordListCache = wordList.split("\n");
+    } catch (_e) {
+      ngWordListCache = [];
+    }
+  }
+
+  // check the text contains any NG words
+  for (const word of ngWordListCache) {
+    if (text.includes(word)) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 // ref: https://qiita.com/cotton392/items/6e8288616a19669d0e4c
 
 const parseToNodes = (text: string) => {
@@ -7,7 +29,9 @@ const parseToNodes = (text: string) => {
     .split("\n")
     .reduce(
       (acc, line) =>
-        /^\s*$/.test(line) ? acc : [...acc, TinySegmenter.segment(line)],
+        /^\s*$/.test(line) || isNgText(line)
+          ? acc
+          : [...acc, TinySegmenter.segment(line)],
       [] as string[][],
     );
 };
