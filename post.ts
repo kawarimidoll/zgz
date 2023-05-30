@@ -1,22 +1,32 @@
 import { Facet, RichText } from "./deps.ts";
 import { AgentType, login } from "./login.ts";
+type ReplyRef = {
+  root: { cid: string; uri: string };
+  parent: { cid: string; uri: string };
+};
 
 export const textPost = async (agent: AgentType, text: string) => {
-  return await agent.post({ $type: "app.bsky.feed.post", text });
+  return await richPost(agent, text, { plain: true });
 };
 
 export const richPost = async (
   agent: AgentType,
   text: string,
-  facets: Facet[] = [],
+  opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
 ) => {
-  const rt = new RichText({ text, facets });
-  // automatically detects mentions and links
-  await rt.detectFacets(agent);
+  const rt = new RichText({ text, facets: opts.facets || [] });
+  if (!opts.plain) {
+    // automatically detects mentions and links
+    await rt.detectFacets(agent);
+  }
+
+  // opts.facets is used if exists (overwrites detected facets)
+  const facets = [...(rt.facets || []), ...(opts.facets || [])];
   return await agent.post({
     $type: "app.bsky.feed.post",
     text: rt.text,
-    facets: [...(rt?.facets || []), ...facets],
+    facets,
+    reply: opts.reply,
   });
 };
 
@@ -48,7 +58,7 @@ const convertMdLink = (src: string) => {
 
 export const mdLinkPost = async (agent: AgentType, src: string) => {
   const { text, facets } = convertMdLink(src);
-  return await richPost(agent, text, facets);
+  return await richPost(agent, text, { facets });
 };
 // const { text, facets } = convertMdLink(
 //   `link test
