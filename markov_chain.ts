@@ -34,7 +34,10 @@ const parseToNodes = (text: string) => {
       (acc, line) =>
         /^\s*$/.test(line) || isNgText(line)
           ? acc
-          : [...acc, TinySegmenter.segment(line)],
+          : [
+            ...acc,
+            TinySegmenter.segment(line).filter((node) => !/^[\s　]*$|\.|�/.test(node)),
+          ],
       [] as string[][],
     );
 };
