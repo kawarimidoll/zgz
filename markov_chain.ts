@@ -6,7 +6,9 @@ const isNgText = (text: string) => {
   if (ngWordListCache === null) {
     try {
       const wordList = Deno.readTextFileSync("./ng_word_list.txt");
-      ngWordListCache = wordList.split("\n");
+      ngWordListCache = wordList.split("\n").filter((word) =>
+        !/^\s*$/.test(word)
+      );
     } catch (_e) {
       ngWordListCache = [];
     }
