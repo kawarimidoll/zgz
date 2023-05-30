@@ -9,12 +9,20 @@ export const chainFeed = async (feedUrl = JP_FEED) => {
   const agent = await login();
 
   const limit = 100;
-  const { data: { feed } } = await agent.api.app.bsky.feed.getFeed({
+  const { data: { feed: feed1, cursor } } = await agent.api.app.bsky.feed
+    .getFeed({
+      feed: feedUrl,
+      limit,
+    });
+  const { data: { feed: feed2 } } = await agent.api.app.bsky.feed.getFeed({
     feed: feedUrl,
     limit,
+    cursor,
   });
 
-  const joinedPosts = feed
+  const source = [...feed1, ...feed2];
+
+  const joinedPosts = source
     .filter(({ post, reply }) =>
       !reply && AppBskyFeedPost.isRecord(post.record) && !post.record.facets
     )
