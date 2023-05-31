@@ -24,7 +24,8 @@ export const chainFeed = async (feedUrl = JP_FEED) => {
 
   const joinedPosts = source
     .filter(({ post, reply }) =>
-      !reply && AppBskyFeedPost.isRecord(post.record) && !post.record.facets
+      !reply && AppBskyFeedPost.isRecord(post.record) && !post.record.facets &&
+      !post.record.embed
     )
     .map(({ post }) =>
       AppBskyFeedPost.isRecord(post.record)
