@@ -1,5 +1,5 @@
 import { partition, sample, segmenter } from "./deps.ts";
-import { hirakataRegexp } from "./string_utils.ts";
+import { hirakataRegexp, smartJoin } from "./string_utils.ts";
 
 let ngWordListCache: string[] | null = null;
 // check the text has any NG words
@@ -94,7 +94,7 @@ const joinBlocks = (blocks: string[][]) => {
   }
 
   // slice to remove EOS
-  return joinedBlocks.flat(1).slice(0, -1).join("");
+  return smartJoin(joinedBlocks.flat(1).slice(0, -1));
 };
 
 export const markovChainGenerate = (text: string, wordCount = 3) => {
