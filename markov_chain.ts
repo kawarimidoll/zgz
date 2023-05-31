@@ -32,12 +32,10 @@ const parseToNodes = (text: string) => {
     .split("\n")
     .reduce(
       (acc, line) =>
-        /^\s*$/.test(line) || isNgText(line)
-          ? acc
-          : [
-            ...acc,
-            segmenter(line).filter((node) => !/^[\s　]*$|\./.test(node)),
-          ],
+        /^\s*$/.test(line) || isNgText(line) ? acc : [
+          ...acc,
+          segmenter(line).filter((node) => !/^[\s　]*$|\./.test(node)),
+        ],
       [] as string[][],
     );
 };
