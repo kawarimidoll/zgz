@@ -1,4 +1,4 @@
-import { katakanaToHiragana } from "./hirakata_regexp.ts";
+import { katakanaToHiragana } from "./string_utils.ts";
 
 function uniq(array: string[]) {
   return [...new Set(array)];

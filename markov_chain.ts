@@ -1,5 +1,5 @@
 import { partition, sample, segmenter } from "./deps.ts";
-import { hirakataRegexp } from "./hirakata_regexp.ts";
+import { hirakataRegexp } from "./string_utils.ts";
 
 let ngWordListCache: string[] | null = null;
 // check the text has any NG words

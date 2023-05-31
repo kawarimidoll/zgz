@@ -1,5 +1,5 @@
 import { assertEquals } from "./deps.ts";
-import { hirakataRegexp, hirakataRegexpEachChar } from "./hirakata_regexp.ts";
+import { hirakataRegexp, hirakataRegexpEachChar } from "./string_utils.ts";
 
 Deno.test("hirakataRegexp()", () => {
   const src = "あいうえお";
