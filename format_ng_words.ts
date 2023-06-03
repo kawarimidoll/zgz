@@ -10,3 +10,4 @@ const wordList = Deno.readTextFileSync(filename).split("\n").filter(
 ).map((word) => katakanaToHiragana(word)).sort();
 
 Deno.writeTextFileSync(filename, uniq(wordList).join("\n"));
+console.log("done.");
