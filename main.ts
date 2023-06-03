@@ -1,4 +1,4 @@
-import { Log } from "./deps.ts";
+import { log } from "./deps.ts";
 import { login } from "./login.ts";
 import { textPost } from "./post.ts";
 import { chainFeed } from "./chain_feed.ts";
@@ -6,8 +6,6 @@ import { notifyIfttt } from "./notify_ifttt.ts";
 
 let loopCount = 0;
 const maxLoopCount = 50;
-
-const log = new Log({ levelIndicator: "initial", color: false });
 
 // try max 50 times
 while (loopCount < maxLoopCount) {

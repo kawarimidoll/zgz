@@ -38,6 +38,7 @@ import {
 } from "https://deno.land/std@0.189.0/testing/mock.ts";
 
 import { Log } from "https://deno.land/x/tl_log@0.1.2/mod.ts";
+const log = new Log({ levelIndicator: "initial", color: false });
 
 const { BskyAgent, RichText, AppBskyFeedPost } = AtprotoAPI;
 
@@ -49,7 +50,7 @@ export {
   assertSpyCalls,
   BskyAgent,
   loadEnv,
-  Log,
+  log,
   partition,
   RichText,
   sample,
