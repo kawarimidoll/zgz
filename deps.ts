@@ -1,7 +1,7 @@
 import AtprotoAPI from "npm:@atproto/api";
 import type { Facet } from "npm:@atproto/api";
 
-import { load as loadEnv } from "https://deno.land/std@0.189.0/dotenv/mod.ts";
+import { load as loadEnv } from "https://deno.land/std@0.190.0/dotenv/mod.ts";
 
 // https://fukuno.jig.jp/3596
 import { TinySegmenter } from "https://code4fukui.github.io/TinySegmenter/TinySegmenter.js";
@@ -25,18 +25,18 @@ const segmenter = (text: string) => {
   return result;
 };
 
-import { partition } from "https://deno.land/std@0.189.0/collections/partition.ts";
-import { sample } from "https://deno.land/std@0.189.0/collections/sample.ts";
+import { partition } from "https://deno.land/std@0.190.0/collections/partition.ts";
+import { sample } from "https://deno.land/std@0.190.0/collections/sample.ts";
 import { chunk } from "https://deno.land/std@0.190.0/collections/chunk.ts";
 import {
   assertEquals,
   assertExists,
-} from "https://deno.land/std@0.189.0/testing/asserts.ts";
+} from "https://deno.land/std@0.190.0/testing/asserts.ts";
 import {
   assertSpyCallArgs,
   assertSpyCalls,
   stub,
-} from "https://deno.land/std@0.189.0/testing/mock.ts";
+} from "https://deno.land/std@0.190.0/testing/mock.ts";
 
 import { Log } from "https://deno.land/x/tl_log@0.1.2/mod.ts";
 const log = new Log({ levelIndicator: "initial", color: false });
