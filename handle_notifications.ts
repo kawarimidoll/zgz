@@ -138,7 +138,7 @@ const handlePost = async ({
   rootUri,
   rootCid,
 }: Record<string, string>) => {
-  log.info(`@${handle}: ${text}`)
+  log.info(`mention(@${handle}): ${text}`);
 
   const response = await executeCommand({
     uri,
@@ -155,28 +155,29 @@ const handlePost = async ({
   });
 };
 
-log.info("start handle_notifications");
+// log.info("start handle_notifications");
 
-const { data: { count } } = await agent.app.bsky.notification.getUnreadCount();
+const seenAt = new Date().toISOString();
+// currently seenAt parameter is unsupported for countUnreadNotifications / listNotifications
+
+const { data: { count } } = await agent.countUnreadNotifications();
 const limit = Math.min(count, 100);
 if (limit < 1) {
-  log.info("no notification");
+  // log.info("no notification");
   Deno.exit(0);
 }
 
 // log.info(`${limit} notifications to fetch`);
 
-const seenAt = new Date().toISOString();
 // const { data: { notifications, cursor } } = await agent.app.bsky.notification.listNotifications({ limit });
-const { data: { notifications } } = await agent.app.bsky.notification
-  .listNotifications({ limit });
+const { data: { notifications } } = await agent.listNotifications({ limit });
 
 // reason is one of "like", "repost", "follow", "mention", "reply", "quote"
 const mentions = notifications.filter((item) =>
   !item.isRead && item.reason === "mention"
 );
 
-log.info(`${mentions.length} notifications to process`);
+// log.info(`${mentions.length} notifications to process`);
 
 for await (const mention of mentions) {
   const { uri, cid, author: { did, handle, displayName }, record } = mention;
@@ -199,5 +200,5 @@ for await (const mention of mentions) {
   });
 }
 
-await agent.app.bsky.notification.updateSeen({ seenAt });
-log.info("finish handle_notifications");
+await agent.updateSeenNotifications(seenAt);
+// log.info("finish handle_notifications");
