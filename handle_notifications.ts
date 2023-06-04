@@ -21,7 +21,7 @@ const executeCommand = async (
 ) => {
   if (text.startsWith("/echo")) {
     log.info("cmd: echo");
-    return { plain: true, text: text.replace(/^echo\s+/, "") };
+    return { plain: true, text: text.replace(/^\s*\/echo\s+/, "") };
   }
   if (text.startsWith("/xrpc did")) {
     log.info("cmd: xrpc did");
