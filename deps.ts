@@ -27,6 +27,7 @@ const segmenter = (text: string) => {
 
 import { partition } from "https://deno.land/std@0.189.0/collections/partition.ts";
 import { sample } from "https://deno.land/std@0.189.0/collections/sample.ts";
+import { chunk } from "https://deno.land/std@0.190.0/collections/chunk.ts";
 import {
   assertEquals,
   assertExists,
@@ -49,6 +50,7 @@ export {
   assertSpyCallArgs,
   assertSpyCalls,
   BskyAgent,
+  chunk,
   loadEnv,
   log,
   partition,

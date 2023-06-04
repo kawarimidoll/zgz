@@ -1,11 +1,11 @@
-import { Facet, RichText } from "./deps.ts";
+import { chunk, Facet, RichText } from "./deps.ts";
 import { AgentType, login } from "./login.ts";
 type ReplyRef = {
   root: { cid: string; uri: string };
   parent: { cid: string; uri: string };
 };
 
-export const richPost = async (
+export const doRichPost = async (
   agent: AgentType,
   text: string,
   opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
@@ -24,6 +24,30 @@ export const richPost = async (
     facets,
     reply: opts.reply,
   });
+};
+
+export const richPost = async (
+  agent: AgentType,
+  text: string,
+  opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
+) => {
+  if ([...text].length <= 300) {
+    return await doRichPost(agent, text, opts);
+  }
+  const threadMarker = "[🧵]";
+  const chunks = chunk([...text], 297).map((c) => c.join(""));
+
+  const first = await doRichPost(agent, chunks[0] + threadMarker, opts);
+  const reply = { root: opts.reply?.root || first, parent: first };
+  for (const chunk of chunks.slice(1, -1)) {
+    const parent = await doRichPost(agent, chunk + threadMarker, {
+      ...opts,
+      reply,
+    });
+    reply.parent = parent;
+  }
+  await doRichPost(agent, chunks.at(-1)!, { ...opts, reply });
+  return first;
 };
 
 const convertMdLink = (src: string) => {
