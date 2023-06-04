@@ -5,10 +5,6 @@ type ReplyRef = {
   parent: { cid: string; uri: string };
 };
 
-export const textPost = async (agent: AgentType, text: string) => {
-  return await richPost(agent, text, { plain: true });
-};
-
 export const richPost = async (
   agent: AgentType,
   text: string,
@@ -78,7 +74,9 @@ if (import.meta.main) {
   const agent = await login();
   if (Deno.args[0] === "--raw") {
     // raw text post
-    console.log(await textPost(agent, Deno.args.slice(1).join(" ")));
+    console.log(
+      await richPost(agent, Deno.args.slice(1).join(" "), { plain: true }),
+    );
   } else {
     // rich text post
     console.log(await mdLinkPost(agent, Deno.args.join(" ")));
