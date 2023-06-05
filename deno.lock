@@ -37,6 +37,7 @@
     "https://deno.land/x/ptera@v1.0.2/types.ts": "24b378ccf1f8e1783022ffe96312ef7c12deb39a62aa33832a3c3555954e663b",
     "https://deno.land/x/ptera@v1.0.2/utils.ts": "1651c7740fef85901af34bbfcd8d9bd467a4313b5a4d5074e2603f989f1ee77a",
     "https://deno.land/x/ptera@v1.0.2/zoned_time.ts": "d0578c18b534625c157eaea6daa88c71708b801f03793a05bc48ba492044191e",
+    "https://deno.land/x/tex_tra@0.2.0/tex_tra.ts": "dccb057c59fa91ec9e33eefeea89cfc0c0382ecaa2695a855ba732076523eb9f",
     "https://deno.land/x/tl_log@0.1.2/deps.ts": "9fffed099968f97fd3c06081743cbf69227618ee364ef2518c6643fd519adfb9",
     "https://deno.land/x/tl_log@0.1.2/mod.ts": "453a30ef8d46fb12eac6dbf1055e3a9a8f9dd94c077c768808c12284e3394eb4"
   },

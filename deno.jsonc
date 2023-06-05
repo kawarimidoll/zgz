@@ -5,7 +5,7 @@
     "chain_feed": "deno run --allow-env --allow-read=.env,ng_word_list.txt --allow-net=bsky.social chain_feed.ts",
     "debug": "deno run --allow-env --allow-read=.env,ng_word_list.txt --allow-net=bsky.social main.ts debug",
     "main": "deno run --allow-env --allow-read=.env,ng_word_list.txt --allow-net=bsky.social main.ts",
-    "notifications": "deno run --allow-env --allow-read=.env --allow-net=bsky.social handle_notifications.ts",
+    "notifications": "deno run --allow-env --allow-read=.env --allow-net=bsky.social,mt-auto-minhon-mlt.ucri.jgn-x.jp handle_notifications.ts",
     "test": "deno test --allow-env --allow-read=.env,ng_word_list.txt --allow-net=bsky.social"
   }
 }

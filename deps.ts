@@ -41,6 +41,8 @@ import {
 import { Log } from "https://deno.land/x/tl_log@0.1.2/mod.ts";
 const log = new Log({ levelIndicator: "initial", color: false });
 
+import { TexTra } from "https://deno.land/x/tex_tra/tex_tra.ts";
+
 const { BskyAgent, RichText, AppBskyFeedPost, AppBskyGraphListitem } =
   AtprotoAPI;
 
@@ -60,6 +62,7 @@ export {
   sample,
   segmenter,
   stub,
+  TexTra,
 };
 
 export type { Facet };

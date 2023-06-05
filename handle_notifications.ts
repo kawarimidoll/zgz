@@ -3,25 +3,35 @@ import { login } from "./login.ts";
 import { richPost } from "./post.ts";
 import { handleXrpc } from "./commands/xrpc.ts";
 import { addMuteList, removeMuteList } from "./commands/mute_list.ts";
+import { translate } from "./commands/translate.ts";
 
 const ADMIN_DID_LIST = (Deno.env.get("ADMIN_DID_LIST") ?? "").split(",");
 const agent = await login();
 
 const executeCommand = async (
-  {
-    uri: _uri,
-    cid: _cid,
-    did,
-    handle,
-    displayName: _displayName,
-    text,
-  }: Record<string, string>,
+  { uri: _u, cid: _c, did, handle, displayName: _d, text, reply }:
+    HandlePostType,
 ) => {
   if (text.startsWith("echo")) {
     return { plain: true, text: text.replace(/^\s*\/echo\s+/, "") };
   }
   if (text.startsWith("xrpc")) {
     return { plain: true, text: handleXrpc({ handle, did, text }) };
+  }
+  if (text.startsWith("translate")) {
+    const targetUri = reply?.parent?.uri;
+    if (!targetUri) {
+      return { plain: true, text: "this command works only on reply." };
+    }
+    const langTo = text.replace(/^\s*translate\s+/, "").replace(/\s+$/, "");
+    if (!langTo) {
+      return {
+        plain: true,
+        text: "target language is required. e.g. translate en",
+      };
+    }
+    const translated = await translate(agent, targetUri, langTo);
+    return { plain: true, text: translated };
   }
   if (text.startsWith("followme")) {
     const profile = await agent.getProfile({ actor: did });
@@ -65,6 +75,7 @@ const executeCommand = async (
     "available commands:",
     "echo <text> - echo <text> back",
     "xrpc <subcommand> - return xrpc url",
+    "translate <lang> - translate reply parent to <lang> (e.g. translate en)",
     "followme - follow you",
     "unfollowme - unfollow you",
     "help - show this help",
@@ -78,16 +89,28 @@ const executeCommand = async (
   };
 };
 
-const handlePost = async ({
-  uri,
-  cid,
-  did,
-  handle,
-  displayName,
-  text,
-  rootUri,
-  rootCid,
-}: Record<string, string>) => {
+type HandlePostType = {
+  uri: string;
+  cid: string;
+  did: string;
+  handle: string;
+  displayName: string;
+  text: string;
+  reply?: {
+    root: {
+      uri: string;
+      cid: string;
+    };
+    parent: {
+      uri: string;
+      cid: string;
+    };
+  };
+};
+
+const handlePost = async (
+  { uri, cid, did, handle, displayName, text, reply }: HandlePostType,
+) => {
   log.info(`mention(@${handle}): ${text}`);
 
   const response = await executeCommand({
@@ -97,11 +120,14 @@ const handlePost = async ({
     handle,
     displayName: displayName ?? handle,
     text,
+    reply,
   });
 
+  const parent = { cid, uri };
+  const root = reply?.root || parent;
   await richPost(agent, response.text, {
     plain: response.plain,
-    reply: { root: { uri: rootUri, cid: rootCid }, parent: { uri, cid } },
+    reply: { root, parent },
   });
 };
 
@@ -137,7 +163,6 @@ for await (const mention of mentions) {
     continue;
   }
   const text = record.text.replaceAll("@" + agent.session!.handle, "").trim();
-  const { cid: rootCid, uri: rootUri } = record.reply?.root || { cid, uri };
   handlePost({
     uri,
     cid,
@@ -145,8 +170,7 @@ for await (const mention of mentions) {
     handle,
     displayName: displayName ?? handle,
     text,
-    rootCid,
-    rootUri,
+    reply: record.reply,
   });
 }
 
