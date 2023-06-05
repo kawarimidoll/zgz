@@ -41,10 +41,12 @@ import {
 import { Log } from "https://deno.land/x/tl_log@0.1.2/mod.ts";
 const log = new Log({ levelIndicator: "initial", color: false });
 
-const { BskyAgent, RichText, AppBskyFeedPost } = AtprotoAPI;
+const { BskyAgent, RichText, AppBskyFeedPost, AppBskyGraphListitem } =
+  AtprotoAPI;
 
 export {
   AppBskyFeedPost,
+  AppBskyGraphListitem,
   assertEquals,
   assertExists,
   assertSpyCallArgs,

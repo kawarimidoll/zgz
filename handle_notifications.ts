@@ -2,7 +2,9 @@ import { AppBskyFeedPost, log } from "./deps.ts";
 import { login } from "./login.ts";
 import { richPost } from "./post.ts";
 import { handleXrpc } from "./commands/xrpc.ts";
+import { addMuteList, removeMuteList } from "./commands/mute_list.ts";
 
+const ADMIN_DID_LIST = (Deno.env.get("ADMIN_DID_LIST") ?? "").split(",");
 const agent = await login();
 
 const executeCommand = async (
@@ -44,6 +46,20 @@ const executeCommand = async (
       plain: false,
       text: ["unfollowed ✅", `hope to see you again, @${handle}`].join("\n"),
     };
+  }
+  if (ADMIN_DID_LIST.includes(did)) {
+    // commands for admin
+    if (text.startsWith("list add")) {
+      const [listName, ...targets] = text.replace(/^\s*\/list\s+add\s+/, "")
+        .split(/\s+/);
+      const resultText = await addMuteList(agent, listName, targets);
+      return { plain: true, text: resultText };
+    }
+    if (text.startsWith("list remove")) {
+      const targets = text.replace(/^\s*\/list\s+remove\s+/, "").split(/\s+/);
+      const resultText = await removeMuteList(agent, targets);
+      return { plain: true, text: resultText };
+    }
   }
   const helpText = [
     "available commands:",
