@@ -19,11 +19,11 @@ const executeCommand = async (
     text,
   }: Record<string, string>,
 ) => {
-  if (text.startsWith("/echo")) {
+  if (text.startsWith("echo")) {
     log.info("cmd: echo");
     return { plain: true, text: text.replace(/^\s*\/echo\s+/, "") };
   }
-  if (text.startsWith("/xrpc did")) {
+  if (text.startsWith("xrpc did")) {
     log.info("cmd: xrpc did");
     return {
       plain: false,
@@ -33,7 +33,7 @@ const executeCommand = async (
       ].join("\n"),
     };
   }
-  if (text.startsWith("/xrpc repo")) {
+  if (text.startsWith("xrpc repo")) {
     log.info("cmd: xrpc repo");
     return {
       plain: false,
@@ -41,39 +41,39 @@ const executeCommand = async (
         `https://bsky.social/xrpc/com.atproto.repo.describeRepo?repo=${did}`,
     };
   }
-  if (text.startsWith("/xrpc post")) {
+  if (text.startsWith("xrpc post")) {
     log.info("cmd: xrpc post");
     return { plain: false, text: xrpcRecordsURL(handle, "feed.post") };
   }
-  if (text.startsWith("/xrpc repost")) {
+  if (text.startsWith("xrpc repost")) {
     log.info("cmd: xrpc repost");
     return { plain: false, text: xrpcRecordsURL(handle, "feed.repost") };
   }
-  if (text.startsWith("/xrpc block")) {
+  if (text.startsWith("xrpc block")) {
     log.info("cmd: xrpc block");
     return { plain: false, text: xrpcRecordsURL(handle, "graph.block") };
   }
-  if (text.startsWith("/xrpc follow")) {
+  if (text.startsWith("xrpc follow")) {
     log.info("cmd: xrpc follow");
     return { plain: false, text: xrpcRecordsURL(handle, "graph.follow") };
   }
-  if (text.startsWith("/xrpc profile")) {
+  if (text.startsWith("xrpc profile")) {
     log.info("cmd: xrpc profile");
     return { plain: false, text: xrpcRecordsURL(handle, "actor.profile") };
   }
-  if (text.startsWith("/xrpc commit")) {
+  if (text.startsWith("xrpc commit")) {
     log.info("cmd: xrpc commit");
     return { plain: false, text: xrpcSyncURL(did, "getCommitPath") };
   }
-  if (text.startsWith("/xrpc head")) {
+  if (text.startsWith("xrpc head")) {
     log.info("cmd: xrpc head");
     return { plain: false, text: xrpcSyncURL(did, "getHead") };
   }
-  if (text.startsWith("/xrpc blob")) {
+  if (text.startsWith("xrpc blob")) {
     log.info("cmd: xrpc blob");
     return { plain: false, text: xrpcSyncURL(did, "listBlobs") };
   }
-  if (text.startsWith("/xrpc")) {
+  if (text.startsWith("xrpc")) {
     log.info("cmd: xrpc help");
     return {
       plain: false,
@@ -83,7 +83,7 @@ const executeCommand = async (
       ].join("\n"),
     };
   }
-  if (text.startsWith("/followme")) {
+  if (text.startsWith("followme")) {
     log.info("cmd: followme");
     const profile = await agent.getProfile({ actor: did });
     const followUri = profile.data.viewer?.following;
@@ -96,7 +96,7 @@ const executeCommand = async (
       text: ["followed ✅", `nice to meet you, @${handle}`].join("\n"),
     };
   }
-  if (text.startsWith("/unfollowme")) {
+  if (text.startsWith("unfollowme")) {
     log.info("cmd: unfollowme");
     const profile = await agent.getProfile({ actor: did });
     const followUri = profile.data.viewer?.following;
@@ -111,13 +111,13 @@ const executeCommand = async (
   }
   const helpText = [
     "available commands:",
-    "/echo <text> - echo <text> back",
-    "/xrpc <subcommand> - return xrpc url",
-    "/followme - follow you",
-    "/unfollowme - unfollow you",
-    "/help - show this help",
+    "echo <text> - echo <text> back",
+    "xrpc <subcommand> - return xrpc url",
+    "followme - follow you",
+    "unfollowme - unfollow you",
+    "help - show this help",
   ].join("\n");
-  if (text.startsWith("/help")) {
+  if (text.startsWith("help")) {
     log.info("cmd: help");
     return { plain: true, text: helpText };
   }
