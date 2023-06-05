@@ -1,13 +1,9 @@
 import { AppBskyFeedPost, log } from "./deps.ts";
 import { login } from "./login.ts";
 import { richPost } from "./post.ts";
+import { handleXrpc } from "./commands/xrpc.ts";
 
 const agent = await login();
-
-const xrpcRecordsURL = (repo: string, record: string) =>
-  `https://bsky.social/xrpc/com.atproto.repo.listRecords?repo=${repo}&collection=app.bsky.${record}&limit=100`;
-const xrpcSyncURL = (did: string, path: string) =>
-  `https://bsky.social/xrpc/com.atproto.sync.${path}?did=${did}`;
 
 const executeCommand = async (
   {
@@ -23,65 +19,8 @@ const executeCommand = async (
     log.info("cmd: echo");
     return { plain: true, text: text.replace(/^\s*\/echo\s+/, "") };
   }
-  if (text.startsWith("xrpc did")) {
-    log.info("cmd: xrpc did");
-    return {
-      plain: false,
-      text: [
-        did,
-        `https://bsky.social/xrpc/com.atproto.identity.resolveHandle?handle=${handle}`,
-      ].join("\n"),
-    };
-  }
-  if (text.startsWith("xrpc repo")) {
-    log.info("cmd: xrpc repo");
-    return {
-      plain: false,
-      text:
-        `https://bsky.social/xrpc/com.atproto.repo.describeRepo?repo=${did}`,
-    };
-  }
-  if (text.startsWith("xrpc post")) {
-    log.info("cmd: xrpc post");
-    return { plain: false, text: xrpcRecordsURL(handle, "feed.post") };
-  }
-  if (text.startsWith("xrpc repost")) {
-    log.info("cmd: xrpc repost");
-    return { plain: false, text: xrpcRecordsURL(handle, "feed.repost") };
-  }
-  if (text.startsWith("xrpc block")) {
-    log.info("cmd: xrpc block");
-    return { plain: false, text: xrpcRecordsURL(handle, "graph.block") };
-  }
-  if (text.startsWith("xrpc follow")) {
-    log.info("cmd: xrpc follow");
-    return { plain: false, text: xrpcRecordsURL(handle, "graph.follow") };
-  }
-  if (text.startsWith("xrpc profile")) {
-    log.info("cmd: xrpc profile");
-    return { plain: false, text: xrpcRecordsURL(handle, "actor.profile") };
-  }
-  if (text.startsWith("xrpc commit")) {
-    log.info("cmd: xrpc commit");
-    return { plain: false, text: xrpcSyncURL(did, "getCommitPath") };
-  }
-  if (text.startsWith("xrpc head")) {
-    log.info("cmd: xrpc head");
-    return { plain: false, text: xrpcSyncURL(did, "getHead") };
-  }
-  if (text.startsWith("xrpc blob")) {
-    log.info("cmd: xrpc blob");
-    return { plain: false, text: xrpcSyncURL(did, "listBlobs") };
-  }
   if (text.startsWith("xrpc")) {
-    log.info("cmd: xrpc help");
-    return {
-      plain: false,
-      text: [
-        "available subcommands:",
-        "did, repo, post, repost, block, follow, profile, commit, head, blob",
-      ].join("\n"),
-    };
+    return { plain: true, text: handleXrpc({ handle, did, text }) };
   }
   if (text.startsWith("followme")) {
     log.info("cmd: followme");
