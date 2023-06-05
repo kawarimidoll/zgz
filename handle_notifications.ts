@@ -16,14 +16,12 @@ const executeCommand = async (
   }: Record<string, string>,
 ) => {
   if (text.startsWith("echo")) {
-    log.info("cmd: echo");
     return { plain: true, text: text.replace(/^\s*\/echo\s+/, "") };
   }
   if (text.startsWith("xrpc")) {
     return { plain: true, text: handleXrpc({ handle, did, text }) };
   }
   if (text.startsWith("followme")) {
-    log.info("cmd: followme");
     const profile = await agent.getProfile({ actor: did });
     const followUri = profile.data.viewer?.following;
     if (followUri) {
@@ -36,7 +34,6 @@ const executeCommand = async (
     };
   }
   if (text.startsWith("unfollowme")) {
-    log.info("cmd: unfollowme");
     const profile = await agent.getProfile({ actor: did });
     const followUri = profile.data.viewer?.following;
     if (!followUri) {
@@ -57,10 +54,8 @@ const executeCommand = async (
     "help - show this help",
   ].join("\n");
   if (text.startsWith("help")) {
-    log.info("cmd: help");
     return { plain: true, text: helpText };
   }
-  log.info("cmd: unknown");
   return {
     plain: true,
     text: ["undefined command!", "", helpText].join("\n"),
