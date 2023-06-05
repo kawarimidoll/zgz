@@ -1,11 +1,8 @@
 import { AppBskyFeedPost, TexTra } from "../deps.ts";
+import { ensureEnv } from "../ensure_env.ts";
 import { AgentType } from "../login.ts";
 
-const name = Deno.env.get("TEX_TRA_NAME") || "";
-const key = Deno.env.get("TEX_TRA_API_KEY") || "";
-const secret = Deno.env.get("TEX_TRA_API_SECRET") || "";
-
-const texTra = new TexTra({ name, key, secret });
+let texTra: TexTra | undefined = undefined;
 
 const getRepoAndRkey = (targetUri: string) => {
   // at://did:plc:repo/app.bsky.feed.post/rkey
@@ -32,6 +29,13 @@ export const translate = async (
   }
   const src = post.value.text;
 
+  if (!texTra) {
+    await ensureEnv();
+    const name = Deno.env.get("TEX_TRA_NAME") || "";
+    const key = Deno.env.get("TEX_TRA_API_KEY") || "";
+    const secret = Deno.env.get("TEX_TRA_API_SECRET") || "";
+    texTra = new TexTra({ name, key, secret });
+  }
   const detected = await texTra.langDetect(src);
   if (detected.code > 0) {
     return "failed to detect source language";
