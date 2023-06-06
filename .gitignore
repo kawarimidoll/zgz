@@ -1,2 +1,2 @@
 *.log
-ng_word_list.txt
+ng_word_list/*.txt

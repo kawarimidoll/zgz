@@ -1,23 +1,37 @@
 import { partition, sample, segmenter } from "./deps.ts";
 import { hirakataRegexp, smartJoin } from "./string_utils.ts";
 
-let ngWordListCache: string[] | null = null;
+let fuzzyNgWordList: RegExp[] | null = null;
+let exactNgWordList: string[] | null = null;
+
 // check the text has any NG words
 const isNgText = (text: string) => {
-  if (ngWordListCache === null) {
+  if (fuzzyNgWordList === null) {
     try {
-      const wordList = Deno.readTextFileSync("./ng_word_list.txt");
-      ngWordListCache = wordList.split("\n").filter((word) =>
-        !/^\s*$/.test(word)
-      );
+      const src = Deno.readTextFileSync("./ng_word_list/fuzzy.txt");
+      fuzzyNgWordList = src.split("\n").filter((word) => !/^\s*$/.test(word))
+        .map((word) => hirakataRegexp(word));
     } catch (_e) {
-      ngWordListCache = [];
+      fuzzyNgWordList = [];
+    }
+  }
+  if (exactNgWordList === null) {
+    try {
+      const src = Deno.readTextFileSync("./ng_word_list/exact.txt");
+      exactNgWordList = src.split("\n").filter((word) => !/^\s*$/.test(word));
+    } catch (_e) {
+      exactNgWordList = [];
     }
   }
 
   // check the text contains any NG words
-  for (const word of ngWordListCache) {
-    if (hirakataRegexp(word).test(text)) {
+  for (const word of fuzzyNgWordList) {
+    if (word.test(text)) {
+      return true;
+    }
+  }
+  for (const word of exactNgWordList) {
+    if (text.includes(word)) {
       return true;
     }
   }
