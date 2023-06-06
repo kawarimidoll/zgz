@@ -15,7 +15,7 @@ const executeCommand = async (
     HandlePostType,
 ) => {
   if (text.startsWith("echo")) {
-    return { plain: true, text: text.replace(/^\s*\/echo\s+/, "") };
+    return { plain: true, text: text.replace(/^\s*echo\s+/, "") };
   }
   if (text.startsWith("xrpc")) {
     return { plain: true, text: handleXrpc({ handle, did, text }) };
@@ -62,13 +62,13 @@ const executeCommand = async (
   if (ADMIN_DID_LIST.includes(did)) {
     // commands for admin
     if (text.startsWith("list add")) {
-      const [listName, ...targets] = text.replace(/^\s*\/list\s+add\s+/, "")
+      const [listName, ...targets] = text.replace(/^\s*list\s+add\s+/, "")
         .split(/\s+/);
       const resultText = await addMuteList(agent, listName, targets);
       return { plain: true, text: resultText };
     }
     if (text.startsWith("list remove")) {
-      const targets = text.replace(/^\s*\/list\s+remove\s+/, "").split(/\s+/);
+      const targets = text.replace(/^\s*list\s+remove\s+/, "").split(/\s+/);
       const resultText = await removeMuteList(agent, targets);
       return { plain: true, text: resultText };
     }
