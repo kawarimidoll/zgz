@@ -1,8 +1,18 @@
 import { BskyAgent } from "./deps.ts";
 
+const bskyAgent = () => {
+  return new BskyAgent({ service: "https://bsky.social" });
+};
+
+export type AgentType = ReturnType<typeof bskyAgent>;
+
+// singleton agent
+const agent = bskyAgent();
+
 export async function login() {
-  const service = "https://bsky.social";
-  const agent = new BskyAgent({ service });
+  if (agent.session) {
+    return agent;
+  }
 
   const identifier = Deno.env.get("BLUESKY_IDENTIFIER") || "";
   const password = Deno.env.get("BLUESKY_PASSWORD") || "";
@@ -10,5 +20,3 @@ export async function login() {
   await agent.login({ identifier, password });
   return agent;
 }
-
-export type AgentType = Awaited<ReturnType<typeof login>>;
