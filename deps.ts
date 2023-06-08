@@ -1,7 +1,7 @@
 import AtprotoAPI from "npm:@atproto/api";
 import type { Facet } from "npm:@atproto/api";
 
-import { load as loadEnv } from "https://deno.land/std@0.190.0/dotenv/mod.ts";
+import "https://deno.land/std@0.190.0/dotenv/load.ts";
 
 // https://fukuno.jig.jp/3596
 import { TinySegmenter } from "https://code4fukui.github.io/TinySegmenter/TinySegmenter.js";
@@ -55,7 +55,6 @@ export {
   assertSpyCalls,
   BskyAgent,
   chunk,
-  loadEnv,
   log,
   partition,
   RichText,

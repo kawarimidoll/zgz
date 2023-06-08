@@ -1,13 +1,11 @@
 import { AppBskyFeedPost, log } from "./deps.ts";
 import { login } from "./login.ts";
-import { ensureEnv } from "./ensure_env.ts";
 import { richPost } from "./post.ts";
 import { handleXrpc } from "./commands/xrpc.ts";
 import { addMuteList, removeMuteList } from "./commands/mute_list.ts";
 import { translate } from "./commands/translate.ts";
 
 const agent = await login();
-await ensureEnv();
 const ADMIN_DID_LIST = (Deno.env.get("ADMIN_DID_LIST") ?? "").split(",");
 
 const executeCommand = async (

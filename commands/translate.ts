@@ -1,5 +1,4 @@
 import { AppBskyFeedPost, TexTra } from "../deps.ts";
-import { ensureEnv } from "../ensure_env.ts";
 import { AgentType } from "../login.ts";
 
 let texTra: TexTra | undefined = undefined;
@@ -30,7 +29,6 @@ export const translate = async (
   const src = post.value.text;
 
   if (!texTra) {
-    await ensureEnv();
     const name = Deno.env.get("TEX_TRA_NAME") || "";
     const key = Deno.env.get("TEX_TRA_API_KEY") || "";
     const secret = Deno.env.get("TEX_TRA_API_SECRET") || "";

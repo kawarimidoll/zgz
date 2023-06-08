@@ -19,6 +19,7 @@
     "https://deno.land/std@0.190.0/collections/partition.ts": "cf57f32e4022d092b209c341a3c04338e8386ab19947a48416e131596d925f08",
     "https://deno.land/std@0.190.0/collections/sample.ts": "1a744b2a486e2792332499d942ccc6edd2f40719f76a2a7a9ec185a3c07e59da",
     "https://deno.land/std@0.190.0/collections/without_all.ts": "a89f5da0b5830defed4f59666e188df411d8fece35a5f6ca69be6ca71a95c185",
+    "https://deno.land/std@0.190.0/dotenv/load.ts": "0636983549b98f29ab75c9a22a42d9723f0a389ece5498fe971e7bb2556a12e2",
     "https://deno.land/std@0.190.0/dotenv/mod.ts": "f5a8123741d1561ae8184a7f043bc097b15132c5171c651142b804b6dbc21853",
     "https://deno.land/std@0.190.0/fmt/colors.ts": "d67e3cd9f472535241a8e410d33423980bec45047e343577554d3356e1f0ef4e",
     "https://deno.land/std@0.190.0/testing/_diff.ts": "1a3c044aedf77647d6cac86b798c6417603361b66b54c53331b312caeb447aea",
