@@ -1,7 +1,9 @@
 import { AppBskyGraphListitem, partition } from "../deps.ts";
-import { AgentType } from "../login.ts";
+import { login } from "../login.ts";
 
-const getLists = async (agent: AgentType) => {
+const agent = await login();
+
+const getLists = async () => {
   const { data } = await agent.app.bsky.graph.getLists({
     actor: agent.session!.did,
   });
@@ -13,7 +15,6 @@ const getLists = async (agent: AgentType) => {
 };
 
 const getProfile = async (
-  agent: AgentType,
   handleOrDid: string,
 ) => {
   const actor = handleOrDid.replace(/^@/, "");
@@ -22,11 +23,10 @@ const getProfile = async (
 };
 
 const doAddMuteList = async (
-  agent: AgentType,
   listUri: string,
   handleOrDid: string,
 ) => {
-  const { did: subject, handle } = await getProfile(agent, handleOrDid);
+  const { did: subject, handle } = await getProfile(handleOrDid);
   const collection = "app.bsky.graph.listitem";
   const createdAt = new Date().toISOString();
   const { data } = await agent.com.atproto.repo.createRecord({
@@ -37,14 +37,13 @@ const doAddMuteList = async (
   return { handle, ...data };
 };
 export const addMuteList = async (
-  agent: AgentType,
   listName: string,
   handleOrDidList: string[],
 ) => {
   if (handleOrDidList.length === 0) {
     return "target did or handle is required. e.g. list add bots zgz.bsky.social";
   }
-  const agentLists = await getLists(agent);
+  const agentLists = await getLists();
   const list = agentLists.find(({ name }) =>
     name.toLowerCase().startsWith(listName.toLowerCase())
   );
@@ -55,7 +54,7 @@ export const addMuteList = async (
     ].join("\n");
   }
   const results = await Promise.all(
-    handleOrDidList.map((target) => doAddMuteList(agent, list.uri, target)),
+    handleOrDidList.map((target) => doAddMuteList(list.uri, target)),
   );
   const [added, failed] = partition(results, (result) => !!result.uri);
   return [
@@ -66,10 +65,9 @@ export const addMuteList = async (
 };
 
 const doRemoveMuteList = async (
-  agent: AgentType,
   handleOrDid: string,
 ) => {
-  const { did: targetDid, handle } = await getProfile(agent, handleOrDid);
+  const { did: targetDid, handle } = await getProfile(handleOrDid);
   const repo = agent.session!.did;
   const collection = "app.bsky.graph.listitem";
   let { data: { records, cursor } } = await agent.com.atproto.repo
@@ -113,7 +111,6 @@ const doRemoveMuteList = async (
 };
 
 export const removeMuteList = async (
-  agent: AgentType,
   handleOrDidList: string[],
 ) => {
   if (handleOrDidList.length === 0) {
@@ -121,7 +118,7 @@ export const removeMuteList = async (
   }
 
   const results = await Promise.all(
-    handleOrDidList.map((target) => doRemoveMuteList(agent, target)),
+    handleOrDidList.map((target) => doRemoveMuteList(target)),
   );
 
   const [removed, failed] = partition(results, (result) => result.success);

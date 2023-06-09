@@ -4,26 +4,7 @@ import type { Facet } from "npm:@atproto/api";
 import "https://deno.land/std@0.190.0/dotenv/load.ts";
 
 // https://fukuno.jig.jp/3596
-import { TinySegmenter } from "https://code4fukui.github.io/TinySegmenter/TinySegmenter.js";
-
-// https://zenn.dev/kawarimidoll/articles/86342d541b17d7
-const segmenter = (text: string) => {
-  const segments = TinySegmenter.segment(text);
-  const result = [segments[0]];
-
-  // join separated surrogate pairs
-  for (const seg of segments.slice(1)) {
-    const last = result.at(-1) || "";
-
-    if (/[\ud800-\udbff]$/.test(last) && /^[\udc00-\udfff]/.test(seg)) {
-      result.splice(-1, 1, last + seg);
-    } else {
-      result.push(seg);
-    }
-  }
-
-  return result;
-};
+import { TinySegmenter } from "https://raw.githubusercontent.com/kawarimidoll/TinySegmenter/patch-1/TinySegmenter.js";
 
 import { partition } from "https://deno.land/std@0.190.0/collections/partition.ts";
 import { sample } from "https://deno.land/std@0.190.0/collections/sample.ts";
@@ -35,6 +16,7 @@ import {
 import {
   assertSpyCallArgs,
   assertSpyCalls,
+  returnsNext,
   stub,
 } from "https://deno.land/std@0.190.0/testing/mock.ts";
 
@@ -57,11 +39,12 @@ export {
   chunk,
   log,
   partition,
+  returnsNext,
   RichText,
   sample,
-  segmenter,
   stub,
   TexTra,
+  TinySegmenter,
 };
 
 export type { Facet };

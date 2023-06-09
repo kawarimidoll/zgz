@@ -40,7 +40,8 @@
     "https://deno.land/x/ptera@v1.0.2/zoned_time.ts": "d0578c18b534625c157eaea6daa88c71708b801f03793a05bc48ba492044191e",
     "https://deno.land/x/tex_tra@0.2.0/tex_tra.ts": "dccb057c59fa91ec9e33eefeea89cfc0c0382ecaa2695a855ba732076523eb9f",
     "https://deno.land/x/tl_log@0.1.2/deps.ts": "9fffed099968f97fd3c06081743cbf69227618ee364ef2518c6643fd519adfb9",
-    "https://deno.land/x/tl_log@0.1.2/mod.ts": "453a30ef8d46fb12eac6dbf1055e3a9a8f9dd94c077c768808c12284e3394eb4"
+    "https://deno.land/x/tl_log@0.1.2/mod.ts": "453a30ef8d46fb12eac6dbf1055e3a9a8f9dd94c077c768808c12284e3394eb4",
+    "https://raw.githubusercontent.com/kawarimidoll/TinySegmenter/patch-1/TinySegmenter.js": "84a82d499d65044ec64778cc1096cd84bed1e54c336eb7c769ac6fbd68272459"
   },
   "npm": {
     "specifiers": {
