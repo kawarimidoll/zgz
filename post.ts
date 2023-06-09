@@ -1,12 +1,13 @@
 import { chunk, Facet, RichText } from "./deps.ts";
-import { AgentType, login } from "./login.ts";
+import { login } from "./login.ts";
 type ReplyRef = {
   root: { cid: string; uri: string };
   parent: { cid: string; uri: string };
 };
 
-export const doRichPost = async (
-  agent: AgentType,
+const agent = await login();
+
+const doRichPost = async (
   text: string,
   opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
 ) => {
@@ -27,26 +28,25 @@ export const doRichPost = async (
 };
 
 export const richPost = async (
-  agent: AgentType,
   text: string,
   opts: { plain?: boolean; facets?: Facet[]; reply?: ReplyRef } = {},
 ) => {
   if ([...text].length <= 300) {
-    return await doRichPost(agent, text, opts);
+    return await doRichPost(text, opts);
   }
   const threadMarker = "[🧵]";
   const chunks = chunk([...text], 297).map((c) => c.join(""));
 
-  const first = await doRichPost(agent, chunks[0] + threadMarker, opts);
+  const first = await doRichPost(chunks[0] + threadMarker, opts);
   const reply = { root: opts.reply?.root || first, parent: first };
   for (const chunk of chunks.slice(1, -1)) {
-    const parent = await doRichPost(agent, chunk + threadMarker, {
+    const parent = await doRichPost(chunk + threadMarker, {
       ...opts,
       reply,
     });
     reply.parent = parent;
   }
-  await doRichPost(agent, chunks.at(-1)!, { ...opts, reply });
+  await doRichPost(chunks.at(-1)!, { ...opts, reply });
   return first;
 };
 
@@ -76,17 +76,10 @@ const convertMdLink = (src: string) => {
   }
 };
 
-export const mdLinkPost = async (agent: AgentType, src: string) => {
+export const mdLinkPost = async (src: string) => {
   const { text, facets } = convertMdLink(src);
-  return await richPost(agent, text, { facets });
+  return await richPost(text, { facets });
 };
-// const { text, facets } = convertMdLink(
-//   `link test
-//
-// https://atproto.com/lexicons/com-atproto-moderation#comatprotomoderationdefs
-//
-// [lexicon](https://atproto.com/guides/lexicon)`,
-// );
 
 if (import.meta.main) {
   if (Deno.args.length === 0) {
@@ -95,14 +88,13 @@ if (import.meta.main) {
     Deno.exit(1);
   }
 
-  const agent = await login();
   if (Deno.args[0] === "--raw") {
     // raw text post
     console.log(
-      await richPost(agent, Deno.args.slice(1).join(" "), { plain: true }),
+      await richPost(Deno.args.slice(1).join(" "), { plain: true }),
     );
   } else {
     // rich text post
-    console.log(await mdLinkPost(agent, Deno.args.join(" ")));
+    console.log(await mdLinkPost(Deno.args.join(" ")));
   }
 }

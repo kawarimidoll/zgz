@@ -35,6 +35,7 @@ import {
 import {
   assertSpyCallArgs,
   assertSpyCalls,
+  returnsNext,
   stub,
 } from "https://deno.land/std@0.190.0/testing/mock.ts";
 
@@ -57,6 +58,7 @@ export {
   chunk,
   log,
   partition,
+  returnsNext,
   RichText,
   sample,
   segmenter,
