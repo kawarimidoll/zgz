@@ -1,4 +1,8 @@
 {
+  "hooks": {
+    "pre-commit": "deno task ci",
+    "pre-push": "deno task test"
+  },
   "tasks": {
     "ci": "deno lint && deno fmt",
     "post": "deno run --allow-env --allow-read --allow-net=bsky.social post.ts",
