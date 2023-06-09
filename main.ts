@@ -1,5 +1,4 @@
 import { log } from "./deps.ts";
-import { login } from "./login.ts";
 import { richPost } from "./post.ts";
 import { chainFeed } from "./chain_feed.ts";
 import { notifyIfttt } from "./notify_ifttt.ts";
@@ -14,14 +13,13 @@ while (loopCount < maxLoopCount) {
   // post if the text has proper length
   if (text.length > 0 && text.length < 300) {
     try {
-      const agent = await login();
       log.info(`post start`);
       log.info(`text: ${text}`);
       if (Deno.args.includes("debug")) {
         log.info(`debug mode, not post`);
         Deno.exit(0);
       }
-      const { uri, cid } = await richPost(agent, text, { plain: true });
+      const { uri, cid } = await richPost(text, { plain: true });
       log.info(`uri : ${uri}`);
       log.info(`cid : ${cid}`);
       log.info(`post success`);

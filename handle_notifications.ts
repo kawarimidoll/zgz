@@ -30,7 +30,7 @@ const executeCommand = async (
         text: "target language is required. e.g. translate en",
       };
     }
-    const translated = await translate(agent, targetUri, langTo);
+    const translated = await translate(targetUri, langTo);
     return { plain: true, text: translated };
   }
   if (text.startsWith("followme")) {
@@ -62,12 +62,12 @@ const executeCommand = async (
     if (text.startsWith("list add")) {
       const [listName, ...targets] = text.replace(/^\s*list\s+add\s+/, "")
         .split(/\s+/);
-      const resultText = await addMuteList(agent, listName, targets);
+      const resultText = await addMuteList(listName, targets);
       return { plain: true, text: resultText };
     }
     if (text.startsWith("list remove")) {
       const targets = text.replace(/^\s*list\s+remove\s+/, "").split(/\s+/);
-      const resultText = await removeMuteList(agent, targets);
+      const resultText = await removeMuteList(targets);
       return { plain: true, text: resultText };
     }
   }
@@ -125,7 +125,7 @@ const handlePost = async (
 
   const parent = { cid, uri };
   const root = reply?.root || parent;
-  await richPost(agent, response.text, {
+  await richPost(response.text, {
     plain: response.plain,
     reply: { root, parent },
   });

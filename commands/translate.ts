@@ -1,5 +1,7 @@
 import { AppBskyFeedPost, TexTra } from "../deps.ts";
-import { AgentType } from "../login.ts";
+import { login } from "../login.ts";
+
+const agent = await login();
 
 let texTra: TexTra | undefined = undefined;
 
@@ -13,7 +15,6 @@ const getRepoAndRkey = (targetUri: string) => {
 };
 
 export const translate = async (
-  agent: AgentType,
   targetUri: string,
   langTo: string,
 ) => {
