@@ -1,4 +1,5 @@
-import { partition, sample, segmenter } from "./deps.ts";
+import { partition, sample } from "./deps.ts";
+import { segmenter } from "./segmenter.ts";
 import { hirakataRegexp, smartJoin } from "./string_utils.ts";
 
 let fuzzyNgWordList: RegExp[] | null = null;
