@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/hook.sh"
 
-deno test --allow-env --allow-read --allow-net=bsky.social
+deno task test
