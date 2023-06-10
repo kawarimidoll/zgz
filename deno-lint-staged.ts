@@ -1,5 +1,6 @@
 import { parse } from "https://deno.land/std/jsonc/parse.ts";
 import { mapValues } from "https://deno.land/std/collections/map_values.ts";
+import lintStaged from "npm:lint-staged";
 
 const readJsonc = async (filename: string) => {
   try {
@@ -16,12 +17,27 @@ if (!json || typeof json !== "object" || Array.isArray(json)) {
   Deno.exit(1);
 }
 
-const lintStaged = json["lint-staged"];
+const lintConfig = json["lint-staged"];
 if (
-  !lintStaged || typeof lintStaged !== "object" || Array.isArray(lintStaged)
+  !lintConfig || typeof lintConfig !== "object" || Array.isArray(lintConfig)
 ) {
   console.log({});
   Deno.exit(0);
 }
 
-console.log(mapValues(lintStaged, (value: unknown) => `bash -c '${value}'`));
+const config = mapValues(lintConfig, (value: unknown) => `bash -c "${value}"`);
+
+try {
+  const success = await lintStaged({ config });
+  if (success) {
+    console.log("Linting was successful!");
+    Deno.exit(0);
+  } else {
+    console.error("Linting failed!");
+    Deno.exit(1);
+  }
+} catch (e) {
+  // Failed to load configuration
+  console.error(e);
+  Deno.exit(1);
+}

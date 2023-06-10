@@ -17,7 +17,7 @@
     "ci": "deno task lint && deno task fmt --check && deno task test",
     // git hooks
     "commit-msg": "npx commitlint -x @commitlint/config-conventional -e \"$1\"",
-    "pre-commit": "deno run --allow-read get-lint-staged.ts | npx lint-staged --config -",
+    "pre-commit": "deno run --allow-read --allow-env --allow-run --allow-write deno-lint-staged.ts",
     "pre-push": "deno task ci"
   }
 }
