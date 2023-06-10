@@ -1,4 +1,7 @@
 {
+  "lint-staged": {
+    "*": "deno lint && deno fmt"
+  },
   "tasks": {
     "run": "deno run --allow-env --allow-read --allow-net=bsky.social,mt-auto-minhon-mlt.ucri.jgn-x.jp",
     "post": "deno task run post.ts",
@@ -13,8 +16,8 @@
     "fmt": "deno fmt --ignore=cov_profile",
     "ci": "deno task lint && deno task fmt --check && deno task test",
     // git hooks
-    "pre-commit": "deno task ci",
     "commit-msg": "npx commitlint -x @commitlint/config-conventional -e \"$1\"",
+    "pre-commit": "deno run --allow-read get-lint-staged.ts | npx lint-staged --config -",
     "pre-push": "deno task ci"
   }
 }
