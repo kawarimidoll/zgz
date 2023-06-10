@@ -8,6 +8,7 @@
     "notifications": "deno run --allow-env --allow-read --allow-net=bsky.social,mt-auto-minhon-mlt.ucri.jgn-x.jp handle_notifications.ts",
     "test": "deno test --allow-env --allow-read --allow-net=bsky.social",
     // git hooks
+    "commit-msg": "npx commitlint -x @commitlint/config-conventional -e $1",
     "pre-commit": "deno task ci",
     "pre-push": "deno task test"
   }
