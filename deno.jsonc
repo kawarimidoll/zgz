@@ -1,15 +1,20 @@
 {
   "tasks": {
-    "ci": "deno lint && deno fmt",
-    "post": "deno run --allow-env --allow-read --allow-net=bsky.social post.ts",
-    "chain_feed": "deno run --allow-env --allow-read --allow-net=bsky.social chain_feed.ts",
-    "debug": "deno run --allow-env --allow-read --allow-net=bsky.social main.ts debug",
-    "main": "deno run --allow-env --allow-read --allow-net=bsky.social main.ts",
-    "notifications": "deno run --allow-env --allow-read --allow-net=bsky.social,mt-auto-minhon-mlt.ucri.jgn-x.jp handle_notifications.ts",
+    "run": "deno run --allow-env --allow-read --allow-net=bsky.social,mt-auto-minhon-mlt.ucri.jgn-x.jp",
+    "post": "deno task run post.ts",
+    "chain_feed": "deno task run chain_feed.ts",
+    "debug": "deno task run main.ts debug",
+    "main": "deno task run main.ts",
+    "notifications": "deno task run handle_notifications.ts",
+    // development
     "test": "deno test --allow-env --allow-read --allow-net=bsky.social",
+    "cov": "deno task test --coverage=cov_profile; deno coverage cov_profile",
+    "lint": "deno lint --ignore=cov_profile",
+    "fmt": "deno fmt --ignore=cov_profile",
+    "ci": "deno task lint && deno task fmt --check && deno task test",
     // git hooks
-    "commit-msg": "npx commitlint -x @commitlint/config-conventional -e $1",
     "pre-commit": "deno task ci",
-    "pre-push": "deno task test"
+    "commit-msg": "npx commitlint -x @commitlint/config-conventional -e \"$1\"",
+    "pre-push": "deno task ci"
   }
 }

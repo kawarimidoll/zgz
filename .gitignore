@@ -1,2 +1,3 @@
 *.log
 ng_word_list/*.txt
+cov_profile
