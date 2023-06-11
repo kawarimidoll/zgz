@@ -5,11 +5,15 @@ import { hirakataRegexp, smartJoin } from "./string_utils.ts";
 let fuzzyNgWordList: RegExp[] | null = null;
 let exactNgWordList: string[] | null = null;
 
-// check the text has any NG words
-const isNgText = (text: string) => {
+const setNgLists = async () => {
   if (fuzzyNgWordList === null) {
     try {
-      const src = Deno.readTextFileSync("./ng_word_list/fuzzy.txt");
+      const url = Deno.env.get("FUZZY_NG_WORD_LIST_URL");
+      if (!url) {
+        throw new Error("FUZZY_NG_WORD_LIST_URL is not set");
+      }
+      const res = await fetch(url);
+      const src = await res.text();
       fuzzyNgWordList = src.split("\n").filter((word) => !/^\s*$/.test(word))
         .map((word) => hirakataRegexp(word));
     } catch (_e) {
@@ -18,22 +22,35 @@ const isNgText = (text: string) => {
   }
   if (exactNgWordList === null) {
     try {
-      const src = Deno.readTextFileSync("./ng_word_list/exact.txt");
+      const url = Deno.env.get("EXACT_NG_WORD_LIST_URL");
+      if (!url) {
+        throw new Error("EXACT_NG_WORD_LIST_URL is not set");
+      }
+      const res = await fetch(url);
+      const src = await res.text();
       exactNgWordList = src.split("\n").filter((word) => !/^\s*$/.test(word));
     } catch (_e) {
       exactNgWordList = [];
     }
   }
+};
 
+// check the text has any NG words
+const isNgText = (text: string) => {
   // check the text contains any NG words
-  for (const word of fuzzyNgWordList) {
-    if (word.test(text)) {
-      return true;
+  if (fuzzyNgWordList !== null) {
+    for (const word of fuzzyNgWordList) {
+      if (word.test(text)) {
+        return true;
+      }
     }
   }
-  for (const word of exactNgWordList) {
-    if (text.includes(word)) {
-      return true;
+
+  if (exactNgWordList !== null) {
+    for (const word of exactNgWordList) {
+      if (text.includes(word)) {
+        return true;
+      }
     }
   }
 
@@ -110,7 +127,8 @@ const joinBlocks = (blocks: string[][]) => {
   return smartJoin(joinedBlocks.flat(1).slice(0, -1));
 };
 
-export const markovChainGenerate = (text: string, wordCount = 3) => {
+export const markovChainGenerate = async (text: string, wordCount = 3) => {
+  await setNgLists();
   const nodes = parseToNodes(text);
   const blocks = nodes.map((nodes) => parseToBlocks(nodes, wordCount)).flat(1);
   return joinBlocks(blocks);

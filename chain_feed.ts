@@ -35,7 +35,7 @@ export const chainFeed = async (feedUrl = JP_FEED) => {
 
   // console.log(joinedPosts);
 
-  return markovChainGenerate(joinedPosts);
+  return await markovChainGenerate(joinedPosts);
 };
 
 if (import.meta.main) {

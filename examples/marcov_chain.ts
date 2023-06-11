@@ -17,5 +17,5 @@ const srcText = `
 
 // loop 10 times
 for (let i = 0; i < 10; i++) {
-  console.log(markovChainGenerate(srcText));
+  console.log(await markovChainGenerate(srcText));
 }
