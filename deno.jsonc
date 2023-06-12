@@ -11,7 +11,7 @@
     "chain_feed": "deno task run chain_feed.ts",
     "debug": "deno task run main.ts debug",
     "main": "deno task run main.ts",
-    "notifications": "deno task run handle_notifications.ts",
+    "notifications": "deno task run --allow-run=git handle_notifications.ts",
     // development
     "test": "deno test --allow-env --allow-read --allow-net --allow-none",
     "cov": "deno task test --coverage=cov_profile; deno coverage cov_profile",

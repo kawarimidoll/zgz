@@ -4,6 +4,7 @@ import { richPost } from "./post.ts";
 import { handleXrpc } from "./commands/xrpc.ts";
 import { addMuteList, removeMuteList } from "./commands/mute_list.ts";
 import { translate } from "./commands/translate.ts";
+import { pull } from "./commands/git.ts";
 
 const agent = await login();
 const ADMIN_DID_LIST = (Deno.env.get("ADMIN_DID_LIST") ?? "").split(",");
@@ -69,6 +70,9 @@ const executeCommand = async (
       const targets = text.replace(/^\s*list\s+remove\s+/, "").split(/\s+/);
       const resultText = await removeMuteList(targets);
       return { plain: true, text: resultText };
+    }
+    if (text.startsWith("pull")) {
+      return { plain: true, text: await pull() };
     }
   }
   const helpText = [
