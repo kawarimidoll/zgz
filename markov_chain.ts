@@ -5,7 +5,7 @@ import { hirakataRegexp, smartJoin } from "./string_utils.ts";
 let fuzzyNgWordList: RegExp[] | null = null;
 let exactNgWordList: string[] | null = null;
 
-const setNgLists = async () => {
+export const setNgLists = async () => {
   if (fuzzyNgWordList === null) {
     try {
       const url = Deno.env.get("FUZZY_NG_WORD_LIST_URL");
@@ -36,7 +36,7 @@ const setNgLists = async () => {
 };
 
 // check the text has any NG words
-const isNgText = (text: string) => {
+export const isNgText = (text: string) => {
   // check the text contains any NG words
   if (fuzzyNgWordList !== null) {
     for (const word of fuzzyNgWordList) {
@@ -59,7 +59,7 @@ const isNgText = (text: string) => {
 
 // ref: https://qiita.com/cotton392/items/6e8288616a19669d0e4c
 
-const parseToNodes = (text: string) => {
+export const parseToNodes = (text: string) => {
   return text
     .split("\n")
     .reduce(
