@@ -19,6 +19,9 @@ const executeCommand = async (
   if (text.startsWith("xrpc")) {
     return { plain: true, text: handleXrpc({ handle, did, text }) };
   }
+  if (text.startsWith("uuid")) {
+    return { plain: true, text: crypto.randomUUID() };
+  }
   if (text.startsWith("translate")) {
     const targetUri = reply?.parent?.uri;
     if (!targetUri) {
@@ -79,6 +82,7 @@ const executeCommand = async (
     "available commands:",
     "echo <text> - echo <text> back",
     "xrpc <subcommand> - return xrpc url",
+    "uuid - return uuid v4",
     "translate <lang> - translate reply parent to <lang> (e.g. translate en)",
     "followme - follow you",
     "unfollowme - unfollow you",
