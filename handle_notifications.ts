@@ -129,10 +129,13 @@ const handlePost = async (
 
   const parent = { cid, uri };
   const root = reply?.root || parent;
-  await richPost(response.text, {
+  const result = await richPost(response.text, {
     plain: response.plain,
     reply: { root, parent },
   });
+  log.info(`repl: ${response.text.replace(/[\r\n]/g, "\\n")}`);
+  log.info(`uri : ${result.uri}`);
+  log.info(`cid : ${result.cid}`);
 };
 
 // log.info("start handle_notifications");
