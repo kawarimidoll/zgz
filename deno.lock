@@ -28,7 +28,16 @@
     "https://deno.land/std@0.190.0/testing/mock.ts": "220ed9b8151cb2cac141043d4cfea7c47673fab5d18d1c1f0943297c8afb5d13",
     "https://deno.land/std@0.191.0/_util/asserts.ts": "178dfc49a464aee693a7e285567b3d0b555dc805ff490505a8aae34f9cfb1462",
     "https://deno.land/std@0.191.0/_util/os.ts": "d932f56d41e4f6a6093d56044e29ce637f8dcc43c5a90af43504a889cf1775e3",
+    "https://deno.land/std@0.191.0/collections/_utils.ts": "5114abc026ddef71207a79609b984614e66a63a4bda17d819d56b0e72c51527e",
+    "https://deno.land/std@0.191.0/collections/chunk.ts": "541f4b537109163f859e7b2e2ff6245669cf4d7feaeae9674b01e1acf3929291",
+    "https://deno.land/std@0.191.0/collections/filter_values.ts": "5b9feaf17b9a6e5ffccdd36cf6f38fa4ffa94cff2602d381c2ad0c2a97929652",
     "https://deno.land/std@0.191.0/collections/map_values.ts": "431b78fd770c72cc978ca7bbfa08cdc0805e69c7d2b69ad19859e093467bd46d",
+    "https://deno.land/std@0.191.0/collections/partition.ts": "98530a323a635d2a0d8a829bbdedeb02b2a9993a9ae11f2927a838fc0d64b9fa",
+    "https://deno.land/std@0.191.0/collections/sample.ts": "1a744b2a486e2792332499d942ccc6edd2f40719f76a2a7a9ec185a3c07e59da",
+    "https://deno.land/std@0.191.0/collections/without_all.ts": "a89f5da0b5830defed4f59666e188df411d8fece35a5f6ca69be6ca71a95c185",
+    "https://deno.land/std@0.191.0/dotenv/load.ts": "0636983549b98f29ab75c9a22a42d9723f0a389ece5498fe971e7bb2556a12e2",
+    "https://deno.land/std@0.191.0/dotenv/mod.ts": "f5a8123741d1561ae8184a7f043bc097b15132c5171c651142b804b6dbc21853",
+    "https://deno.land/std@0.191.0/fmt/colors.ts": "d67e3cd9f472535241a8e410d33423980bec45047e343577554d3356e1f0ef4e",
     "https://deno.land/std@0.191.0/fs/exists.ts": "29c26bca8584a22876be7cb8844f1b6c8fc35e9af514576b78f5c6884d7ed02d",
     "https://deno.land/std@0.191.0/json/common.ts": "ecd5e87d45b5f0df33238ed8b1746e1444da7f5c86ae53d0f0b04280f41a25bb",
     "https://deno.land/std@0.191.0/jsonc/parse.ts": "2910e33bc7c3b243e3b6f3a39ce4d6ca84337b277a8df6f2ad2d9e4adbcddc08",
@@ -41,6 +50,10 @@
     "https://deno.land/std@0.191.0/path/posix.ts": "8b7c67ac338714b30c816079303d0285dd24af6b284f7ad63da5b27372a2c94d",
     "https://deno.land/std@0.191.0/path/separator.ts": "0fb679739d0d1d7bf45b68dacfb4ec7563597a902edbaf3c59b50d5bcadd93b1",
     "https://deno.land/std@0.191.0/path/win32.ts": "d186344e5583bcbf8b18af416d13d82b35a317116e6460a5a3953508c3de5bba",
+    "https://deno.land/std@0.191.0/testing/_diff.ts": "1a3c044aedf77647d6cac86b798c6417603361b66b54c53331b312caeb447aea",
+    "https://deno.land/std@0.191.0/testing/_format.ts": "a69126e8a469009adf4cf2a50af889aca364c349797e63174884a52ff75cf4c7",
+    "https://deno.land/std@0.191.0/testing/asserts.ts": "e16d98b4d73ffc4ed498d717307a12500ae4f2cbe668f1a215632d19fcffc22f",
+    "https://deno.land/std@0.191.0/testing/mock.ts": "220ed9b8151cb2cac141043d4cfea7c47673fab5d18d1c1f0943297c8afb5d13",
     "https://deno.land/x/ptera@v1.0.2/constants.ts": "61659e7f70136d73e0215d373fa815427f424a8b1596bf88ba62da4f542b4c2a",
     "https://deno.land/x/ptera@v1.0.2/convert.ts": "f4251fd3f46b7924fc70f2e81c13eeee9123897478b309e3117cc8b421386c81",
     "https://deno.land/x/ptera@v1.0.2/datetime.ts": "fd6bd0e6bc8cb6ddd21416d7f9bde6fca93d0a6de17dfad676ce79af1cd667a3",
@@ -60,12 +73,22 @@
   },
   "npm": {
     "specifiers": {
-      "@atproto/api": "@atproto/api@0.3.10",
+      "@atproto/api": "@atproto/api@0.3.12",
       "lint-staged": "lint-staged@13.2.2"
     },
     "packages": {
       "@atproto/api@0.3.10": {
         "integrity": "sha512-6vbJ96kvnvzjUW9OjO5fU/v97UZl4hUwYAjGgRNU1C6Wk8OWa3R2CYolSeotV6pMi9hKpiEb3+cv+Noumthivg==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0",
+          "@atproto/uri": "@atproto/uri@0.0.2",
+          "@atproto/xrpc": "@atproto/xrpc@0.1.0",
+          "tlds": "tlds@1.238.0",
+          "typed-emitter": "typed-emitter@2.1.0"
+        }
+      },
+      "@atproto/api@0.3.12": {
+        "integrity": "sha512-dLXIHmxTutSVN3xu5GC8Nl3rVfUpKEeR8txloKb3ITQNxW4d8PFesS9+Vvup7gFNhaA0biusHr0ib05tC7aAfQ==",
         "dependencies": {
           "@atproto/common-web": "@atproto/common-web@0.1.0",
           "@atproto/uri": "@atproto/uri@0.0.2",
