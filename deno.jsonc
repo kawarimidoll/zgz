@@ -5,7 +5,7 @@
   },
   "tasks": {
     // general permissions
-    "run": "deno run --allow-env --allow-read --allow-net=bsky.social,mt-auto-minhon-mlt.ucri.jgn-x.jp",
+    "run": "deno run --allow-env --allow-read --allow-net",
     // runners
     "post": "deno task run post.ts",
     "chain_feed": "deno task run chain_feed.ts",
