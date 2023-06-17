@@ -5,24 +5,33 @@ import { login } from "./login.ts";
 const JP_FEED =
   "at://did:plc:q6gjnaw2blty4crticxkmujt/app.bsky.feed.generator/cl-japanese";
 
-export const chainFeed = async (feedUrl = JP_FEED) => {
-  const agent = await login();
+const agent = await login();
 
+const getFeed = async (
+  params: { feed: string; limit?: number; cursor?: string },
+) => {
+  const { data } = await agent.api.app.bsky.feed.getFeed(params);
+  return data;
+};
+
+export const chainFeed = async (feedUrl = JP_FEED) => {
   const limit = 100;
-  const { data: { feed: feed1, cursor } } = await agent.api.app.bsky.feed
-    .getFeed({
+
+  // get feed 5 times
+  let cursor: string | undefined = undefined;
+  const feed = [];
+  for (let i = 0; i < 5; i++) {
+    const { feed: feedTmp, cursor: cursorTmp } = await getFeed({
       feed: feedUrl,
       limit,
+      cursor,
     });
-  const { data: { feed: feed2 } } = await agent.api.app.bsky.feed.getFeed({
-    feed: feedUrl,
-    limit,
-    cursor,
-  });
+    feed.push(...feedTmp);
+    cursor = cursorTmp;
+  }
+  // console.log(feed.length)
 
-  const source = [...feed1, ...feed2];
-
-  const joinedPosts = source
+  const joinedPosts = feed
     .filter(({ post, reply }) =>
       !reply && AppBskyFeedPost.isRecord(post.record) && !post.record.facets &&
       !post.record.embed
