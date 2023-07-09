@@ -1,5 +1,13 @@
 import { Seed } from "../deps.ts";
 
+// ref: https://github.com/denoland/deno_std/blob/main/collections/sample.ts
+// re-implement to use Seed class
+export function sample<T>(array: readonly T[], seed?: string): T | undefined {
+  const random = new Seed(seed || `${Math.random()}`);
+  const length = array.length;
+  return length ? array[random.randomInt(0, length - 1)] : undefined;
+}
+
 // ref: https://deno.land/x/shuffle/mod.ts;
 // re-implement to use Seed class
 export function shuffle<T>(arr: readonly T[], seed?: string): T[] {
