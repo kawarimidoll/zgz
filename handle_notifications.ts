@@ -5,6 +5,7 @@ import { handleXrpc } from "./commands/xrpc.ts";
 import { addMuteList, removeMuteList } from "./commands/mute_list.ts";
 import { translate } from "./commands/translate.ts";
 import { pull } from "./commands/git.ts";
+import { handleRandom } from "./commands/random.ts";
 
 const agent = await login();
 const ADMIN_DID_LIST = (Deno.env.get("ADMIN_DID_LIST") ?? "").split(",");
@@ -18,6 +19,9 @@ const executeCommand = async (
   }
   if (text.startsWith("xrpc")) {
     return { plain: true, text: handleXrpc({ handle, did, text }) };
+  }
+  if (text.startsWith("random")) {
+    return { plain: true, text: handleRandom({ handle, did, text }) };
   }
   if (text.startsWith("uuid")) {
     return { plain: true, text: crypto.randomUUID() };
@@ -82,6 +86,7 @@ const executeCommand = async (
     "available commands:",
     "echo <text> - echo <text> back",
     "xrpc <subcommand> - return xrpc url",
+    "random <subcommand> - return random text",
     "uuid - return uuid v4",
     "translate <lang> - translate reply parent to <lang> (e.g. translate en)",
     "followme - follow you",

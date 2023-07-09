@@ -22,4 +22,6 @@ export const log = new Log({ levelIndicator: "initial", color: false });
 
 export { TexTra } from "https://deno.land/x/tex_tra@0.2.0/tex_tra.ts";
 
+export { Seed } from "https://deno.land/x/seed@1.0.0/index.ts";
+
 export * from "./npm_deps.ts";
