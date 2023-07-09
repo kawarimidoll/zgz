@@ -25,7 +25,7 @@ const waha = (did: string) => {
   const todayString = new Date().toISOString().split("T")[0];
   const randomSeed = `${todayString}-${did}`;
   return [
-    `random waha challenge on ${todayString}!`,
+    `random waha challenge on ${todayString}`,
     "",
     shuffleString(WAHA, randomSeed),
   ].join("\n");
@@ -37,8 +37,8 @@ export const handleRandom = ({ did, text }: Record<string, string>) => {
   }
 
   return [
-    "return random text that changes every.",
+    "return random text that changes every day.",
     "available subcommands:",
-    "waha",
+    "  waha: random waha challenge",
   ].join("\n");
 };
