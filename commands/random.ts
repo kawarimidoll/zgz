@@ -21,19 +21,17 @@ function shuffleString(str: string, seed?: string) {
 }
 
 const WAHA = "(っ＾ω＾c)";
-const waha = (did: string) => {
-  const todayString = new Date().toISOString().split("T")[0];
-  const randomSeed = `${todayString}-${did}`;
-  return [
-    `random waha challenge on ${todayString}`,
-    "",
-    shuffleString(WAHA, randomSeed),
-  ].join("\n");
-};
 
 export const handleRandom = ({ did, text }: Record<string, string>) => {
+  const todayString = new Date().toISOString().split("T")[0];
+  const randomSeed = `${todayString}-${did}`;
+
   if (text.startsWith("random waha")) {
-    return waha(did);
+    return [
+      `random waha challenge on ${todayString}`,
+      "",
+      shuffleString(WAHA, randomSeed),
+    ].join("\n");
   }
 
   return [
