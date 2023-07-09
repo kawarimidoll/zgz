@@ -2,7 +2,7 @@ import { Seed } from "../deps.ts";
 
 // ref: https://deno.land/x/shuffle/mod.ts;
 // re-implement to use Seed class
-function shuffle<T>(arr: readonly T[], seed?: string): T[] {
+export function shuffle<T>(arr: readonly T[], seed?: string): T[] {
   const length = arr.length;
   const result = [...arr];
 
