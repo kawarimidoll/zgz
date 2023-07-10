@@ -21,7 +21,7 @@ const executeCommand = async (
     return { plain: true, text: handleXrpc({ handle, did, text }) };
   }
   if (text.startsWith("random")) {
-    return { plain: true, text: handleRandom({ handle, did, text }) };
+    return { plain: true, text: await handleRandom({ handle, did, text }) };
   }
   if (text.startsWith("uuid")) {
     return { plain: true, text: crypto.randomUUID() };

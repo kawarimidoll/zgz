@@ -28,9 +28,26 @@ function shuffleString(str: string, seed?: string) {
   return shuffle(str.split(""), seed).join("");
 }
 
-const WAHA = "(っ＾ω＾c)";
+let idiomList: string[] | null = null;
+const fourCharacterIdiom = async (seed?: string) => {
+  if (idiomList === null) {
+    try {
+      const url = Deno.env.get("YOJI_JUKUGO_LIST_URL");
+      if (!url) {
+        throw new Error("YOJI_JUKUGO_LIST_URL is not set");
+      }
+      const res = await fetch(url);
+      const src = await res.text();
+      idiomList = src.split("\n").filter((word) => !/^\s*$/.test(word));
+    } catch (_e) {
+      idiomList = ["取得失敗"];
+    }
+  }
+  return sample(idiomList, seed);
+};
 
-export const handleRandom = ({ did, text }: Record<string, string>) => {
+const WAHA = "(っ＾ω＾c)";
+export const handleRandom = async ({ did, text }: Record<string, string>) => {
   const todayString = new Date().toISOString().split("T")[0];
   const randomSeed = `${todayString}-${did}`;
 
@@ -42,9 +59,18 @@ export const handleRandom = ({ did, text }: Record<string, string>) => {
     ].join("\n");
   }
 
+  if (text.startsWith("random 4ci")) {
+    return [
+      `random four-character idiom on ${todayString}`,
+      "",
+      await fourCharacterIdiom(todayString),
+    ].join("\n");
+  }
+
   return [
     "return random text that changes every day.",
     "available subcommands:",
     "  waha: random waha challenge",
+    "  4ci: random Japanese four-character idiom",
   ].join("\n");
 };
