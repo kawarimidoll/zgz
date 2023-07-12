@@ -18,6 +18,11 @@ export {
   stub,
 } from "https://deno.land/std@0.193.0/testing/mock.ts";
 
+export {
+  DOMParser,
+  Element,
+} from "https://deno.land/x/deno_dom@v0.1.38/deno-dom-wasm.ts";
+
 import { Log } from "https://deno.land/x/tl_log@0.1.2/mod.ts";
 export const log = new Log({ levelIndicator: "initial", color: false });
 
