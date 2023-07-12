@@ -59,9 +59,9 @@ export const handleRandom = async ({ did, text }: Record<string, string>) => {
     ].join("\n");
   }
 
-  if (text.startsWith("random 4ci")) {
+  if (text.startsWith("random yoji")) {
     return [
-      `random four-character idiom on ${todayString}`,
+      `random yoji-jukugo on ${todayString}`,
       "",
       await fourCharacterIdiom(todayString),
     ].join("\n");
@@ -71,6 +71,6 @@ export const handleRandom = async ({ did, text }: Record<string, string>) => {
     "return random text that changes every day.",
     "available subcommands:",
     "  waha: random waha challenge",
-    "  4ci: random Japanese four-character idiom",
+    "  yoji: random Japanese yoji-jukugo (four-character idiom)",
   ].join("\n");
 };
