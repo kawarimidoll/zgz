@@ -15,3 +15,7 @@ export async function saveList(list: string[]) {
     append: true,
   });
 }
+
+// other sources:
+// https://www.imabi.net/idiomsivyojijukugo.htm
+// https://www.edrdg.org/projects/yojijukugo.html
