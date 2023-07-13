@@ -3,7 +3,7 @@ import { markovChainGenerate } from "./markov_chain.ts";
 import { login } from "./login.ts";
 
 const JP_FEED =
-  "at://did:plc:q6gjnaw2blty4crticxkmujt/app.bsky.feed.generator/cl-japanese";
+  "at://did:plc:kwibnjihi6sfdphwfzlogfwi/app.bsky.feed.generator/jp-cluster";
 
 const agent = await login();
 
